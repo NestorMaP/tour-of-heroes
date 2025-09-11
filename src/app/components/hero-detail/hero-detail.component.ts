@@ -1,15 +1,36 @@
 import { Component, Input } from '@angular/core';
-import { Hero } from '../../interfaces/hero';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { HeroService } from '../../services/hero/hero.service';
+import { Hero } from '../../interfaces/hero';
 
 @Component({
   selector: 'app-hero-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './hero-detail.component.html',
   styleUrls: ['./hero-detail.component.scss'],
 })
 export class HeroDetailComponent {
-  @Input() hero?: Hero;
+  hero: Hero | undefined;
+
+  constructor(
+    private route: ActivatedRoute,
+    private heroService: HeroService,
+    private location: Location
+  ) { }
+
+  getHero(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.heroService.getHero(id)
+      .subscribe(hero => this.hero = hero);
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
 }
