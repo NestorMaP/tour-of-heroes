@@ -3,6 +3,7 @@ import { Hero } from '../hero';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HEROES } from '../mock-heroes';
+import { HeroDetailComponent } from "../hero-detail/hero-detail.component";
 
 @Component({
   selector: 'app-heroes',
@@ -10,7 +11,8 @@ import { HEROES } from '../mock-heroes';
   imports: [
     CommonModule,
     FormsModule,
-  ],
+    HeroDetailComponent
+],
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.scss']
 })
