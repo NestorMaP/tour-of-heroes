@@ -1,5 +1,5 @@
 <h2>My Heroes</h2>
-<ul>
+<ul class="heroes">
     @for(hero of heroes; track hero.id) {
         <li>
             <button [class.selected]="hero === selectedHero" type="button" (click)="onSelect(hero)">

@@ -31,13 +31,13 @@ button {
     margin-bottom: 1rem;
     margin-top: 1rem;
 
-    &hover {
+    &:hover {
         transition: 0.5s ease;
         background-color: #eee;
         color: white;
     }
 
-    &disabled {
+    &:disabled {
         background-color: #eee;
         color: #aaa;
         cursor: auto;
