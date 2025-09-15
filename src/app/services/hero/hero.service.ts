@@ -22,7 +22,7 @@ export class HeroService {
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
       .pipe(
-        tap(_ => this.log('fetched heroes')),
+        tap(_ => this.log('Fetched heroes')),
         catchError(this.handleError<Hero[]>('getHeroes', []))
       );
   }
@@ -32,15 +32,29 @@ export class HeroService {
     const url = `${this.heroesUrl}/${id}`;
 
     return this.http.get<Hero>(url).pipe(
-      tap(_ => this.log(`HeroService: Hero fetched with id=${id}.`)),
+      tap(_ => this.log(`Hero fetched with id=${id}.`)),
       catchError(this.handleError<Hero>(`getHero id=${id}`))
+    );
+  }
+
+  /** GET heroes whose name contains search term */
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      return of ([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      tap(searchKey => searchKey.length ?
+        this.log(`Found heroes matching "${term}"`) :
+        this.log(`No heroes matching "${term}"`)
+      ),
+      catchError(this.handleError<Hero[]>('searchHeroes', []))
     );
   }
 
   /** POST: add a new hero to the server */
   addHero(hero: Hero): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((newHero: Hero) => this.log(`HeroService: Added hero w/ id=${newHero.id}`)),
+      tap((newHero: Hero) => this.log(`Added hero w/ id=${newHero.id}`)),
       catchError(this.handleError<Hero>('addHero'))
     )
   }

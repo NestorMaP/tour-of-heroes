@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Hero } from '../../interfaces/hero';
 import { HeroService } from '../../services/hero/hero.service';
 import { RouterLink, RouterModule } from '@angular/router';
+import { HeroSearchComponent } from "../hero-search/hero-search.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    RouterModule, RouterLink
-  ],
+    RouterModule, RouterLink,
+    HeroSearchComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
