@@ -18,13 +18,27 @@ export class HeroService {
     private messageService: MessageService,
     private http: HttpClient) {}
 
-    /** GET heroes from the server */
+  /** GET heroes from the server */
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
       .pipe(
         tap(_ => this.log('Fetched heroes')),
         catchError(this.handleError<Hero[]>('getHeroes', []))
       );
+  }
+
+  /** GET hero by id. Return 'undefined' when id not found */
+  getHeroNo404<Data>(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero[]>(url)
+      .pipe(
+        map(heroes => heroes[0]),
+        tap(hero => {
+          const outcome = hero? 'fetched' : 'did not find';
+          this.log(`${outcome} hero id=${id}`);
+        }),
+        catchError(this.handleError<Hero>(`getHero id=${id}`))
+      )
   }
 
   /** GET: retrieve hero by id. Will 404 if id not found */
