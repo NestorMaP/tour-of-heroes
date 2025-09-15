@@ -48,9 +48,18 @@ export class HeroService {
   /** PUT: update the hero on the server */
   updateHero(hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap(_ => this.log(`HeroService: Updated hero with id=${hero.id}.`)),
+      tap(_ => this.log(`Updated hero with id=${hero.id}.`)),
       catchError(this.handleError<any>(`updateHero`))
     )
+  }
+
+  /** DELETE: delete the hero from the serve */
+  deleteHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`Updated hero with id=${id}.`)),
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
   }
 
   /** Log a HeroService message with the MessageService */
